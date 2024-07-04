@@ -1,21 +1,17 @@
-// script.js
-
-document.addEventListener('DOMContentLoaded', function() {
-    var map = L.map('map').setView([35.4676, -97.5164], 5); // Initial view
+document.addEventListener('DOMContentLoaded', () => {
+    const map = L.map('map').setView([37.7749, -122.4194], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    fetch('/api/locations') // Fetch data from the server
+    fetch('/api/locations')
         .then(response => response.json())
         .then(data => {
             data.forEach(location => {
                 L.marker([location.latitude, location.longitude])
-                    .addTo(map)
-                    .bindPopup(`<b>${location.name}</b><br>${location.description}`);
+                    .bindPopup(`<b>${location.name}</b><br>${location.description}`)
+                    .addTo(map);
             });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        });
 });
